@@ -3,8 +3,8 @@ import LinkOption from '../LinkOption';
 export default function UserLinkShorten() {
   return (
     <div className="w-full">
-      <div>
-        <div className="mt-10 flex flex-col items-center gap-4 px-8 lg:flex-row lg:justify-center lg:gap-2 lg:px-6">
+      <div className="px-8 lg:px-6">
+        <div className="mt-10 flex flex-col items-center gap-4  lg:flex-row lg:justify-center lg:gap-2">
           <div className="w-full">
             <input
               type="text"

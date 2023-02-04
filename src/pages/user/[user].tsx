@@ -13,7 +13,7 @@ export default function User() {
         <Header user={'User'} />
 
         <div className="flex w-full justify-center">
-          <div className="flex w-full max-w-[1100px] flex-col items-center gap-5 lg:flex-row">
+          <div className="flex w-full max-w-[1100px] flex-col gap-5 lg:flex-row">
             <UserLinkShorten />
             <UserLinkShorten />
           </div>
