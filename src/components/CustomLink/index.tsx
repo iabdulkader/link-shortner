@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import Button from '../Button';
+import ShortUrlDisplay from '../Input/ShortUrlDisplay';
 import { LinkOptionButtonProps } from '../LinkOption';
 
 interface CustomLinkProps {
@@ -19,6 +21,8 @@ export default function CustomLink({ active }: CustomLinkProps) {
         handleSlug={handleChnage}
         slug={slug}
       />
+      <Button />
+      <ShortUrlDisplay />
     </CustomLink.Body>
   );
 }
@@ -54,15 +58,6 @@ CustomLink.InputBox = function CustomLinkInputBox({
         onChange={handleSlug}
         className="z-0 h-14 w-full flex-grow select-none pr-5 focus:shadow focus:outline-none"
       />
-      <CustomLink.Button />
     </div>
-  );
-};
-
-CustomLink.Button = function CustomLinkButton() {
-  return (
-    <>
-      <button>Hey</button>
-    </>
   );
 };
