@@ -50,7 +50,7 @@ CustomLink.InputBox = function CustomLinkInputBox({
     active === 'username' ? 'u/' : ''
   }`;
   return (
-    <div className="mt-10 flex w-full items-center overflow-hidden rounded-lg bg-white">
+    <div className="mt-10 mb-6 flex w-full items-center overflow-hidden rounded-lg bg-white">
       <h1 className="bg-inherit pl-4">{base}</h1>
       <input
         type="text"
