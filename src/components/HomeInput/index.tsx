@@ -17,7 +17,7 @@ export default function HomeInput() {
       <div className="mt-10 flex flex-col items-center gap-0 lg:flex-row lg:justify-center lg:gap-2">
         <input
           type="text"
-          className="z-0 h-14 w-full rounded-lg px-5 focus:shadow focus:outline-none"
+          className="z-0 mb-5 h-14 w-full rounded-lg px-5 focus:shadow focus:outline-none lg:mb-0"
           placeholder="Paste any link"
         />
         <Button />

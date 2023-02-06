@@ -28,7 +28,7 @@ LinkOption.Button = function LinkOptionButton({
   return (
     <>
       <div className="mt-6 text-white">
-        <div className="grid h-full grid-cols-2 rounded-lg bg-accent">
+        <div className="grid h-full grid-cols-2 rounded-lg bg-accent text-xs lg:text-base">
           <div
             className={`flex cursor-pointer select-none items-center justify-center rounded-lg py-4 px-6 text-center ${
               active === 'username' ? 'bg-white text-slate-800' : ''

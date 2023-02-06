@@ -7,7 +7,7 @@ export default function HomeInfo() {
         <p className="text-xs lg:text-base">
           To make customized links,{' '}
           <span className="text-blue-600">
-            <Link href="/login">Sign in</Link>
+            <Link href="/signin">Sign in</Link>
           </span>
         </p>
       </div>
