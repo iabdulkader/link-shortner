@@ -1,8 +1,14 @@
+import modal from 'modal-rt';
 import { BiCopy } from 'react-icons/bi';
 import Button from '../Button';
 import ShortUrlDisplay from '../Input/ShortUrlDisplay';
 
 export default function HomeInput() {
+  const handle = () => {
+    console.log('clicked');
+    modal(<p>Hey</p>);
+  };
+
   return (
     <div>
       <div className="px-10  text-center">
@@ -20,7 +26,7 @@ export default function HomeInput() {
           className="z-0 mb-5 h-14 w-full rounded-lg px-5 focus:shadow focus:outline-none lg:mb-0"
           placeholder="Paste any link"
         />
-        <Button />
+        <Button onClick={handle} />
       </div>
 
       <ShortUrlDisplay />
