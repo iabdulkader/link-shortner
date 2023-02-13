@@ -7,7 +7,6 @@ import {
 import DiscordProvider from 'next-auth/providers/discord';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { env } from '../env/server.mjs';
 import { prisma } from './db';
 
 declare module 'next-auth' {

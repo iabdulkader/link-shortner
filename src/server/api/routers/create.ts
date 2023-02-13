@@ -20,7 +20,7 @@ export const createRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ input, ctx }) => {
-      const slug = nanoid(6);
+      const slug = nanoid(7);
 
       const res = await ctx.prisma.link.create!({
         data: {

@@ -41,8 +41,7 @@ export default function HomeInput() {
         />
         <Button loading={isLoading} onClick={handle} />
       </div>
-
-      <ShortUrlDisplay shortUrl={shortUrl} />
+      {shortUrl && <ShortUrlDisplay shortUrl={shortUrl} />}
     </div>
   );
 }
