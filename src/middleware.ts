@@ -1,6 +1,15 @@
 import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
 
 export async function middleware(req: NextRequest, ev: NextFetchEvent) {
+  if (
+    req.nextUrl.pathname.startsWith('/api/') ||
+    req.nextUrl.pathname.startsWith('/user') ||
+    req.nextUrl.pathname.startsWith('/signup') ||
+    req.nextUrl.pathname.startsWith('/signup')
+  ) {
+    return NextResponse.next();
+  }
+
   const slug = req.nextUrl.pathname.split('/').pop();
 
   const slugFetch = await fetch(`${req.nextUrl.origin}/api/get-url/${slug}`);
@@ -14,7 +23,3 @@ export async function middleware(req: NextRequest, ev: NextFetchEvent) {
     return NextResponse.redirect(data.url);
   }
 }
-
-export const config = {
-  matcher: ['/((?!api|signup|signin|user|favicon.ico).*)'],
-};
