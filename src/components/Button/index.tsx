@@ -2,9 +2,15 @@ export interface ButtonProps {
   text?: string;
   height?: number;
   onClick?: () => void;
+  loading?: boolean;
 }
 
-export default function Button({ text, height, ...rest }: ButtonProps) {
+export default function Button({
+  text,
+  height,
+  loading,
+  ...rest
+}: ButtonProps) {
   return (
     <div className="">
       <button
@@ -12,7 +18,7 @@ export default function Button({ text, height, ...rest }: ButtonProps) {
         style={{ height: `${height! / 4}rem` }}
         className="h-14 rounded-lg bg-accent px-6 text-center text-white hover:bg-green-600"
       >
-        {text ? text : 'Shorten'}
+        {loading ? <p>Loading</p> : <>{text ? text : 'Shorten'}</>}
       </button>
     </div>
   );

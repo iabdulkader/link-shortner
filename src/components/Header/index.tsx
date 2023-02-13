@@ -17,7 +17,7 @@ export default function Header({ user }: { user: string }) {
     <div className="bg-accent px-3 text-slate-50 lg:px-6">
       <div className="flex min-h-[4rem] w-full items-center justify-between">
         <div className="">
-          <Link href="/" className="text-2xl font-bold">
+          <Link href="/" className="font-['Poppins'] text-2xl font-bold">
             {process.env.NEXT_PUBLIC_APP_NAME}
           </Link>
         </div>
