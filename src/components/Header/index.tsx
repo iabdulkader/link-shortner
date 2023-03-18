@@ -1,5 +1,8 @@
+import modal from 'modal-rt';
 import Link from 'next/link';
 import { useState } from 'react';
+import Button from '../Button';
+import { SignIn, SignUp } from '../Credentials';
 import HeaderExpand from '../HeaderExpand';
 
 export default function Header({ user }: { user: string }) {
@@ -45,14 +48,24 @@ export default function Header({ user }: { user: string }) {
 }
 
 Header.Home = function HomeHeader() {
+  const click = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    let active = e.currentTarget.innerText;
+
+    if (active === 'Sign Up') {
+      modal(<SignUp />);
+    } else {
+      modal(<SignIn />);
+    }
+  };
+
   return (
     <div className="absolute top-5 right-8 flex gap-5">
       <div>
-        <Link href="/signup">Sign Up</Link>
+        <button onClick={click}>Sign Up</button>
       </div>
 
       <div>
-        <Link href="/signin">Sign In</Link>
+        <button onClick={click}>Sign In</button>
       </div>
     </div>
   );
