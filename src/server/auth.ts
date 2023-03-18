@@ -61,11 +61,6 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
-  pages: {
-    signIn: '/signin',
-    // error: '/auth/error',
-    // signOut: '/auth/signout'
-  },
 };
 
 export const getServerAuthSession = (ctx: {
