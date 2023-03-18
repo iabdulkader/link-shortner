@@ -1,8 +1,10 @@
 import modal from 'modal-rt';
 import Link from 'next/link';
 import { useState } from 'react';
+import { useGlobalContext } from '../../../context/GlobalContext';
 import Button from '../Button';
 import { SignIn, SignUp } from '../Credentials';
+import Body from '../Credentials/Body';
 import HeaderExpand from '../HeaderExpand';
 
 export default function Header({ user }: { user: string }) {
@@ -48,13 +50,17 @@ export default function Header({ user }: { user: string }) {
 }
 
 Header.Home = function HomeHeader() {
+  const { activeModal, updateModal } = useGlobalContext();
+
   const click = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     let active = e.currentTarget.innerText;
 
     if (active === 'Sign Up') {
-      modal(<SignUp />);
+      updateModal!('signup');
+      modal(<Body />);
     } else {
-      modal(<SignIn />);
+      updateModal!('signin');
+      modal(<Body />);
     }
   };
 

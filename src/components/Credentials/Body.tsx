@@ -1,4 +1,10 @@
-export default function Body({ children }: { children: JSX.Element }) {
+import { useGlobalContext } from '../../../context/GlobalContext';
+import SignIn from './SignIn';
+import SignUp from './SignUp';
+
+export default function Body() {
+  const { activeModal } = useGlobalContext();
+
   return (
     <div
       style={{
@@ -7,7 +13,7 @@ export default function Body({ children }: { children: JSX.Element }) {
       }}
       className="w-full max-w-[500px] rounded-md bg-[#1a1b4b] "
     >
-      {children}
+      {activeModal === 'signin' ? <SignIn /> : <SignUp />}
     </div>
   );
 }
