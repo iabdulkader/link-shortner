@@ -19,33 +19,19 @@ export default function Header({ user }: { user: string }) {
   };
 
   return (
-    <div className="bg-accent px-3 text-slate-50 lg:px-6">
-      <div className="flex min-h-[4rem] w-full items-center justify-between">
-        <div className="">
-          <Link href="/" className="font-['Poppins'] text-2xl font-bold">
-            {process.env.NEXT_PUBLIC_APP_NAME}
-          </Link>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <div className="flex items-center gap-2">
-            <div
-              onClick={handle}
-              className="flex h-10 w-10 items-center justify-center rounded-full bg-white p-0 text-2xl font-extrabold text-accent"
-            >
-              <h1>{user[0]!.toUpperCase()}</h1>
-            </div>
-
-            <div className="hidden text-lg font-bold lg:block">{user}</div>
-          </div>
-
-          <div className="hidden lg:block">
-            <h2>Signout</h2>
+    <>
+      <div>
+        <div className="flex w-full scale-105 items-center justify-between rounded-full bg-accent">
+          <div
+            onClick={handle}
+            className="flex h-10 w-10 scale-90 cursor-pointer select-none items-center justify-center rounded-full bg-white p-0 text-center text-2xl font-extrabold text-accent"
+          >
+            <h1>{user[0]!.toUpperCase()}</h1>
           </div>
         </div>
       </div>
-      {show ? <HeaderExpand user={user} /> : null}
-    </div>
+      <HeaderExpand user={user} />
+    </>
   );
 }
 
@@ -66,13 +52,14 @@ Header.Home = function HomeHeader() {
 
   return (
     <div className="absolute top-5 right-8 flex gap-5">
-      <div>
-        <button onClick={click}>Sign Up</button>
-      </div>
+      {/* //   <div>
+    //     <button onClick={click}>Sign Up</button>
+    //   </div>
 
-      <div>
-        <button onClick={click}>Sign In</button>
-      </div>
+    //   <div>
+    //     <button onClick={click}>Sign In</button>
+    //   </div> */}
+      <Header user="Abdul Kader" />
     </div>
   );
 };

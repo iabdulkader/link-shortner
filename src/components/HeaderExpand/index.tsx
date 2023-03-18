@@ -4,9 +4,9 @@ export interface HeaderExpandProps {
 
 export default function HeaderExpand({ user }: HeaderExpandProps) {
   return (
-    <div className="flex flex-col items-end rounded-bl-lg rounded-br-lg border-t-[1px] border-gray-600 py-3">
-      <div>{user}</div>
-      <div>Sign Out</div>
+    <div className="absolute top-12 right-0 w-36 rounded-md bg-slate-100 px-5 py-2">
+      <div className="whitespace-nowrap">{user}</div>
+      <div className="whitespace-nowrap">Sign Out</div>
     </div>
   );
 }
