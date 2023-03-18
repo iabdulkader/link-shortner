@@ -10,7 +10,7 @@ import { useEffect } from 'react';
 import MyLinks from '../components/MyLinks';
 
 const Home: NextPage = () => {
-  useEffect(() => {}, []);
+  const { data, status } = useSession();
 
   return (
     <>
@@ -29,8 +29,7 @@ const Home: NextPage = () => {
         <main className="container flex flex-col items-center justify-center px-0 font-[Nunito] lg:px-0">
           <Header.Home />
           <HomeInput />
-          {/* <HomeInfo /> */}
-          <MyLinks />
+          {data?.user?.name ? <MyLinks /> : <HomeInfo />}
         </main>
       </div>
     </>

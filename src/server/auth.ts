@@ -9,29 +9,18 @@ import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { prisma } from './db';
 
-declare module 'next-auth' {
-  interface Session extends DefaultSession {
-    user: {
-      id: string;
-    } & DefaultSession['user'];
-  }
-
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
-}
-
 export const authOptions: NextAuthOptions = {
   session: {
     strategy: 'jwt',
   },
+  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    session({ session, user }) {
-      if (session.user) {
-        session.user.id = user.id;
-        // session.user.role = user.role; <-- put other properties on the session here
-      }
+    async jwt({ token, user }) {
+      return { ...token, ...user };
+    },
+    async session({ session, token, user }) {
+      session.user = token;
+
       return session;
     },
   },
@@ -40,23 +29,37 @@ export const authOptions: NextAuthOptions = {
     CredentialsProvider({
       type: 'credentials',
       credentials: {},
-      authorize(credentials, req) {
+      async authorize(credentials, req) {
         const { email, password } = credentials as {
           email: string;
           password: string;
         };
         // perform you login logic
-        // find out user from db
-        if (email !== 'john@gmail.com' || password !== '1234') {
-          throw new Error('invalid credentials');
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/auth/signin`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              email,
+              password,
+            }),
+          }
+        );
+
+        const data = await res.json();
+
+        if (!data.success) {
+          throw new Error(data.error);
         }
+
+        console.log(data);
 
         // if everything is fine
         return {
-          id: '1234',
-          name: 'John Doe',
-          email: 'john@gmail.com',
-          role: 'admin',
+          ...data.user,
         };
       },
     }),

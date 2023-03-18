@@ -2,7 +2,7 @@ import { NextFetchEvent, NextRequest } from 'next/server';
 
 export async function middleware(req: NextRequest, ev: NextFetchEvent) {
   const slug = req.nextUrl.pathname.split('/').pop();
-  console.log('slug', req.url);
+  // console.log('slug', req.url);
   // if (!slug) return NextResponse.next();
 
   // const slugFetch = await fetch(`${req.nextUrl.origin}/api/get-url/${slug}`);

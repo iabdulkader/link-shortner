@@ -2,7 +2,7 @@ import { AiOutlineDelete } from 'react-icons/ai';
 
 export default function Link() {
   return (
-    <div className="mt-3 flex w-full flex-col items-center gap-3 lg:gap-2">
+    <div className="mt-3 flex w-full flex-col items-center gap-3 px-3 lg:gap-2">
       <div className="flex w-full items-center rounded-md border border-slate-50 px-4 py-2">
         <div>
           <input
