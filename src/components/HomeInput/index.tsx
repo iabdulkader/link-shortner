@@ -55,9 +55,11 @@ export default function HomeInput() {
 
           <div className="flex h-full w-full flex-col lg:flex-row lg:gap-2">
             <div className="flex h-full w-full items-center">
-              <p className="mr-2 text-slate-50">
-                {`${process.env.NEXT_PUBLIC_CLIENT_URL}/`}
-              </p>
+              <div className="whitespace-nowrap">
+                <p className="mr-2 text-slate-50">
+                  {`${process.env.NEXT_PUBLIC_CLIENT_URL}/`}
+                </p>
+              </div>
               <Input
                 type="text"
                 value={slug}
