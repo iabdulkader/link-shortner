@@ -7,6 +7,7 @@ import HomeInput from '../components/HomeInput';
 import HomeInfo from '../components/HomeInfo';
 import Header from '../components/Header';
 import { useEffect } from 'react';
+import MyLinks from '../components/MyLinks';
 
 const Home: NextPage = () => {
   useEffect(() => {}, []);
@@ -28,7 +29,8 @@ const Home: NextPage = () => {
         <main className="container flex flex-col items-center justify-center px-0 font-[Nunito] lg:px-0">
           <Header.Home />
           <HomeInput />
-          <HomeInfo />
+          {/* <HomeInfo /> */}
+          <MyLinks />
         </main>
       </div>
     </>

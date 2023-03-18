@@ -12,10 +12,7 @@ export default function Header({ user }: { user: string }) {
 
   const handle = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.preventDefault();
-    if (e.screenX < 700) {
-      console.log('Mobile');
-      setShow(!show);
-    }
+    setShow(!show);
   };
 
   return (
@@ -30,7 +27,15 @@ export default function Header({ user }: { user: string }) {
           </div>
         </div>
       </div>
-      <HeaderExpand user={user} />
+      {show && (
+        <>
+          <div
+            onClick={handle}
+            className="z-1 fixed top-0 left-0 h-full w-full"
+          ></div>
+          <HeaderExpand user={user} />
+        </>
+      )}
     </>
   );
 }
