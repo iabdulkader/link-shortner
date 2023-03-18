@@ -3,11 +3,13 @@ import { useState } from 'react';
 import { BiCopy } from 'react-icons/bi';
 import { api } from '../../utils/trpc';
 import Button from '../Button';
+import Input from '../Input';
 import ShortUrlDisplay from '../Input/ShortUrlDisplay';
 
 export default function HomeInput() {
   const [url, setUrl] = useState<string>('');
   const [shortUrl, setShortUrl] = useState<string>('');
+  const [slug, setSlug] = useState<string>('');
 
   const { mutate, isLoading } = api.create.createUnAuth.useMutation({
     onSuccess: (data) => {
@@ -21,8 +23,8 @@ export default function HomeInput() {
   };
 
   return (
-    <div>
-      <div className="px-10  text-center">
+    <div className="px-4">
+      <div className="text-center">
         <h1 className="font-['Poppins'] text-3xl font-extrabold lg:text-8xl">
           {process.env.NEXT_PUBLIC_APP_NAME}
         </h1>
@@ -31,16 +33,45 @@ export default function HomeInput() {
         </p>
       </div>
 
-      <div className="mt-10 flex flex-col items-center gap-0 lg:flex-row lg:justify-center lg:gap-2">
-        <input
-          type="text"
-          value={url}
-          onChange={(e) => setUrl(e.target.value)}
-          className="z-0 mb-5 h-14 w-full rounded-lg px-5 focus:shadow focus:outline-none lg:mb-0"
-          placeholder="Paste any link"
-        />
+      {/* <div className="mt-10 flex w-full flex-col items-center gap-0 lg:flex-row lg:justify-center lg:gap-2">
+        <Input
+            type="text"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            placeholder="Paste any link"
+          />
         <Button loading={isLoading} onClick={handle} />
-      </div>
+      </div> */}
+
+      {true && (
+        <div className="mt-10 flex w-full flex-col items-center gap-3 lg:gap-2">
+          <Input
+            type="text"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            placeholder="Paste any link"
+          />
+          <p className="inset-0 w-full text-left">Custom Slug</p>
+
+          <div className="flex h-full w-full flex-col lg:flex-row lg:gap-2">
+            <div className="flex h-full w-full items-center">
+              <p className="mr-2 text-slate-50">
+                {`${process.env.NEXT_PUBLIC_CLIENT_URL}/`}
+              </p>
+              <Input
+                type="text"
+                value={slug}
+                onChange={(e) => setSlug(e.target.value)}
+                placeholder="Custom Slug"
+              />
+            </div>
+
+            <div className="mt-5 lg:mt-0 lg:w-min">
+              <Button loading={isLoading} onClick={handle} />
+            </div>
+          </div>
+        </div>
+      )}
       {shortUrl && <ShortUrlDisplay shortUrl={shortUrl} />}
     </div>
   );
