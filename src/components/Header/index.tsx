@@ -1,14 +1,13 @@
 import modal from 'modal-rt';
-import Link from 'next/link';
+import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { useGlobalContext } from '../../../context/GlobalContext';
-import Button from '../Button';
-import { SignIn, SignUp } from '../Credentials';
 import Body from '../Credentials/Body';
 import HeaderExpand from '../HeaderExpand';
 
-export default function Header({ user }: { user: string }) {
+export default function Header() {
   const [show, setShow] = useState<boolean>(false);
+  const { data } = useSession();
 
   const handle = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.preventDefault();
@@ -23,7 +22,7 @@ export default function Header({ user }: { user: string }) {
             onClick={handle}
             className="flex h-10 w-10 scale-90 cursor-pointer select-none items-center justify-center rounded-full bg-white p-0 text-center text-2xl font-extrabold text-accent"
           >
-            <h1>{user[0]!.toUpperCase()}</h1>
+            <h1>{data?.user!.name![0]!.toUpperCase()}</h1>
           </div>
         </div>
       </div>
@@ -33,7 +32,7 @@ export default function Header({ user }: { user: string }) {
             onClick={handle}
             className="z-1 fixed top-0 left-0 h-full w-full"
           ></div>
-          <HeaderExpand user={user} />
+          <HeaderExpand user={data?.user!.name!} />
         </>
       )}
     </>
@@ -41,7 +40,10 @@ export default function Header({ user }: { user: string }) {
 }
 
 Header.Home = function HomeHeader() {
-  const { activeModal, updateModal } = useGlobalContext();
+  const { updateModal } = useGlobalContext();
+  const { data, status } = useSession();
+
+  if (status === 'loading') return null;
 
   const click = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     let active = e.currentTarget.innerText;
@@ -57,14 +59,19 @@ Header.Home = function HomeHeader() {
 
   return (
     <div className="absolute top-5 right-8 flex gap-5">
-      {/* //   <div>
-    //     <button onClick={click}>Sign Up</button>
-    //   </div>
+      {!data?.user ? (
+        <>
+          <div>
+            <button onClick={click}>Sign Up</button>
+          </div>
 
-    //   <div>
-    //     <button onClick={click}>Sign In</button>
-    //   </div> */}
-      <Header user="Abdul Kader" />
+          <div>
+            <button onClick={click}>Sign In</button>
+          </div>
+        </>
+      ) : (
+        <Header />
+      )}
     </div>
   );
 };

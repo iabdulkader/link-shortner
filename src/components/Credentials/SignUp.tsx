@@ -1,19 +1,80 @@
+import { useState } from 'react';
 import { useGlobalContext } from '../../../context/GlobalContext';
 import Button from '../Button';
 import Input from '../Input';
-import Body from './Body';
+import { api } from '../../utils/trpc';
 
 export default function SignUp() {
   const { updateModal } = useGlobalContext();
+  const { mutate, isLoading } = api.user.createUser.useMutation({
+    onSuccess: (data) => {
+      updateModal!('signin');
+    },
+  });
+
+  const [name, setName] = useState<{ value: string; error: string }>({
+    value: '',
+    error: '',
+  });
+  const [email, setEmail] = useState<{ value: string; error: string }>({
+    value: '',
+    error: '',
+  });
+  const [password, setPassword] = useState<{ value: string; error: string }>({
+    value: '',
+    error: '',
+  });
+  const [confirmPassword, setConfirmPassword] = useState<{
+    value: string;
+    error: string;
+  }>({ value: '', error: '' });
 
   const signUp = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('Sign Up');
+    let isError: boolean = false;
+    if (!name.value || name.value.trim().length < 3) {
+      isError = true;
+      setName({ ...name, error: 'Name must be at least 3 characters long' });
+    }
+    if (
+      !email.value ||
+      /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/gi.test(email.value) ===
+        false
+    ) {
+      isError = true;
+      setEmail({ ...email, error: 'Invalid Email' });
+    }
+    if (!password.value || password.value.trim().length < 6) {
+      isError = true;
+      setPassword({
+        ...password,
+        error: 'Password must be at least 6 characters long',
+      });
+    }
+    if (
+      !confirmPassword.value ||
+      confirmPassword.value.trim() !== password.value.trim()
+    ) {
+      isError = true;
+      setConfirmPassword({
+        ...confirmPassword,
+        error: 'Password does not matchs',
+      });
+    }
+
+    if (isError) return;
+
+    mutate({
+      name: name.value,
+      email: email.value,
+      password: password.value,
+    });
   };
 
   const switchSignIn = () => {
     updateModal!('signin');
   };
+
   return (
     <div className="p-8 text-slate-50">
       <h1 className="text-center text-2xl font-bold">Sign Up</h1>
@@ -26,7 +87,10 @@ export default function SignUp() {
             name="name"
             id="name"
             placeholder="Full Name"
-            required
+            value={name.value}
+            onChange={(e) => setName({ error: '', value: e.target.value })}
+            error={name.error ? true : false}
+            errorText={name.error}
           />
         </div>
 
@@ -37,7 +101,10 @@ export default function SignUp() {
             name="email"
             id="email"
             placeholder="Email"
-            required
+            value={email.value}
+            onChange={(e) => setEmail({ error: '', value: e.target.value })}
+            error={email.error ? true : false}
+            errorText={email.error}
           />
         </div>
 
@@ -48,7 +115,10 @@ export default function SignUp() {
             name="password"
             id="password"
             placeholder="Password"
-            required
+            value={password.value}
+            onChange={(e) => setPassword({ error: '', value: e.target.value })}
+            error={password.error ? true : false}
+            errorText={password.error}
           />
         </div>
 
@@ -59,12 +129,17 @@ export default function SignUp() {
             name="confirmPassword"
             id="confirmPassword"
             placeholder="Confirm Password"
-            required
+            value={confirmPassword.value}
+            onChange={(e) =>
+              setConfirmPassword({ error: '', value: e.target.value })
+            }
+            error={confirmPassword.error ? true : false}
+            errorText={confirmPassword.error}
           />
         </div>
 
         <div className="mt-5">
-          <Button text="Sign Up" type="submit" />
+          <Button loading={isLoading} text="Sign Up" type="submit" />
         </div>
       </form>
 

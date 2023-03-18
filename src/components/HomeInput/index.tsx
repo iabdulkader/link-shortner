@@ -1,4 +1,5 @@
 import modal from 'modal-rt';
+import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { BiCopy } from 'react-icons/bi';
 import { api } from '../../utils/trpc';
@@ -7,6 +8,7 @@ import Input from '../Input';
 import ShortUrlDisplay from '../Input/ShortUrlDisplay';
 
 export default function HomeInput() {
+  const { data, status } = useSession();
   const [url, setUrl] = useState<string>('');
   const [shortUrl, setShortUrl] = useState<string>('');
   const [slug, setSlug] = useState<string>('');
@@ -22,6 +24,8 @@ export default function HomeInput() {
     });
   };
 
+  if (status === 'loading') return <div>Loading...</div>;
+
   return (
     <div className="px-4">
       <div className="text-center">
@@ -33,20 +37,10 @@ export default function HomeInput() {
         </p>
       </div>
 
-      {/* <div className="mt-10 flex w-full flex-col items-center gap-0 lg:flex-row lg:justify-center lg:gap-2">
-        <Input
-            type="text"
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-            placeholder="Paste any link"
-          />
-        <Button loading={isLoading} onClick={handle} />
-      </div> */}
-
-      {true && (
+      {data?.user?.name ? (
         <div className="mt-10 flex w-full flex-col items-center gap-3 lg:gap-2">
           <Input
-            type="text"
+            type="url"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             placeholder="Paste any link"
@@ -73,7 +67,19 @@ export default function HomeInput() {
             </div>
           </div>
         </div>
+      ) : (
+        <div className="mt-10 flex w-full flex-col items-center gap-0 lg:flex-row lg:justify-center lg:gap-2">
+          <Input
+            type="text"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            placeholder="Paste any link"
+          />
+          <div className="mb-5"></div>
+          <Button loading={isLoading} onClick={handle} />
+        </div>
       )}
+
       {shortUrl && <ShortUrlDisplay shortUrl={shortUrl} />}
     </div>
   );
