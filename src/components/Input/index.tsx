@@ -14,7 +14,7 @@ const Input: React.FC<InputProps> = ({
   ...rest
 }) => {
   return (
-    <>
+    <div className="flex h-full w-full flex-col">
       <input
         type={type}
         value={value}
@@ -28,13 +28,13 @@ const Input: React.FC<InputProps> = ({
 
       {errorText && (
         <p
-          className="w-full text-xs text-red-400
+          className="mt-1 w-full text-xs text-red-400
       "
         >
           {errorText}
         </p>
       )}
-    </>
+    </div>
   );
 };
 

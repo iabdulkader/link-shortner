@@ -78,7 +78,7 @@ export default function HomeInput() {
           </div>
         </div>
       ) : (
-        <div className="mt-10 flex w-full flex-col items-center gap-0 lg:flex-row lg:justify-center lg:gap-2">
+        <div className="mt-10 flex w-full flex-col gap-0 lg:flex-row lg:justify-center lg:gap-2">
           <Input
             type="text"
             value={url.value}
