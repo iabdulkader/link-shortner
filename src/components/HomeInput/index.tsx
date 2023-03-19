@@ -9,7 +9,10 @@ import ShortUrlDisplay from '../Input/ShortUrlDisplay';
 
 export default function HomeInput() {
   const { data, status } = useSession();
-  const [url, setUrl] = useState<string>('');
+  const [url, setUrl] = useState<{ value: string; error: string }>({
+    value: '',
+    error: '',
+  });
   const [shortUrl, setShortUrl] = useState<string>('');
   const [slug, setSlug] = useState<string>('');
 
@@ -19,8 +22,12 @@ export default function HomeInput() {
     },
   });
   const handle = () => {
+    if (/^(ftp|http|https):\/\/[^ "]+$/.test(url.value) === false) {
+      setUrl({ ...url, error: 'Invalid URL' });
+      return;
+    }
     mutate({
-      url,
+      url: url.value,
     });
   };
 
@@ -41,9 +48,11 @@ export default function HomeInput() {
         <div className="mt-10 flex w-full flex-col items-center gap-3 lg:gap-2">
           <Input
             type="url"
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
+            value={url.value}
+            onChange={(e) => setUrl({ value: e.target.value, error: '' })}
             placeholder="Paste any link"
+            error={url.error ? true : false}
+            errorText={url.error}
           />
           <p className="inset-0 w-full text-left">Custom Slug</p>
 
@@ -71,8 +80,10 @@ export default function HomeInput() {
         <div className="mt-10 flex w-full flex-col items-center gap-0 lg:flex-row lg:justify-center lg:gap-2">
           <Input
             type="text"
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
+            value={url.value}
+            onChange={(e) => setUrl({ value: e.target.value, error: '' })}
+            error={url.error ? true : false}
+            errorText={url.error}
             placeholder="Paste any link"
           />
           <div className="mb-5"></div>

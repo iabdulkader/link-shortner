@@ -1,22 +1,22 @@
-import { NextFetchEvent, NextRequest } from 'next/server';
+import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
 
 export async function middleware(req: NextRequest, ev: NextFetchEvent) {
   const slug = req.nextUrl.pathname.split('/').pop();
-  // console.log('slug', req.url);
-  // if (!slug) return NextResponse.next();
+  console.log('slug', req.url);
+  if (!slug) return NextResponse.next();
 
-  // const slugFetch = await fetch(`${req.nextUrl.origin}/api/get-url/${slug}`);
+  const slugFetch = await fetch(`${req.nextUrl.origin}/api/get-url/${slug}`);
 
-  // if (slugFetch.status === 404) {
-  //   return NextResponse.redirect(req.nextUrl.origin);
-  // }
-  // const data = await slugFetch.json();
+  if (slugFetch.status === 404) {
+    return NextResponse.redirect(req.nextUrl.origin);
+  }
+  const data = await slugFetch.json();
 
-  // if (data?.url) {
-  //   return NextResponse.redirect(data.url);
-  // }
+  if (data?.url) {
+    return NextResponse.redirect(data.url);
+  }
 }
 
-// export const config = {
-//   matcher: '/:slug',
-// };
+export const config = {
+  matcher: '/:slug',
+};

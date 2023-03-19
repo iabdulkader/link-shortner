@@ -18,7 +18,7 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       return { ...token, ...user };
     },
-    async session({ session, token, user }) {
+    async session({ session, token }) {
       session.user = token;
 
       return session;
@@ -54,8 +54,6 @@ export const authOptions: NextAuthOptions = {
         if (!data.success) {
           throw new Error(data.error);
         }
-
-        console.log(data);
 
         // if everything is fine
         return {
