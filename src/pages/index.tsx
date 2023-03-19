@@ -26,10 +26,12 @@ const Home: NextPage = () => {
         }}
         className="w-full bg-primary"
       >
-        <main className="container flex flex-col items-center justify-center px-0 font-[Nunito] lg:px-0">
+        <main className="container  px-0 font-[Nunito] lg:px-0">
           <Header.Home />
-          <HomeInput />
-          {data?.user?.name ? <MyLinks /> : <HomeInfo />}
+          <div className="flex flex-col items-center justify-center">
+            <HomeInput />
+            {data?.user?.name ? null : <HomeInfo />}
+          </div>
         </main>
       </div>
     </>

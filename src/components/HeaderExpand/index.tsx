@@ -6,7 +6,7 @@ export interface HeaderExpandProps {
 
 export default function HeaderExpand({ user }: HeaderExpandProps) {
   return (
-    <div className="z-2 absolute top-12 right-0 w-auto rounded-md bg-slate-100 px-5 py-2">
+    <div className="z-2 absolute top-16 w-auto rounded-md bg-slate-100 px-5 py-2">
       <div className="whitespace-nowrap font-bold">{user}</div>
       <div
         onClick={() => signOut()}
