@@ -70,14 +70,15 @@ export default function HomeInput() {
                 placeholder="Custom Slug"
               />
             </div>
-
-            <div className="mt-5 lg:mt-0 lg:w-min">
+            <div className="mb-5"></div>
+            <div>
               <Button loading={isLoading} onClick={handle} />
             </div>
+            <div className="mt-5 lg:mt-0 lg:w-min"></div>
           </div>
         </div>
       ) : (
-        <div className="mt-10 flex w-full flex-col items-center gap-0 lg:flex-row lg:justify-center lg:gap-2">
+        <div className="mt-10 flex w-full flex-col gap-0 lg:flex-row lg:justify-center lg:gap-2">
           <Input
             type="text"
             value={url.value}
@@ -86,8 +87,11 @@ export default function HomeInput() {
             errorText={url.error}
             placeholder="Paste any link"
           />
+
           <div className="mb-5"></div>
-          <Button loading={isLoading} onClick={handle} />
+          <div className="w-full lg:w-auto">
+            <Button loading={isLoading} onClick={handle} />
+          </div>
         </div>
       )}
 

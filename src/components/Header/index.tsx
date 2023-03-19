@@ -58,7 +58,7 @@ Header.Home = function HomeHeader() {
   };
 
   return (
-    <div className="absolute top-5 right-8 flex gap-5">
+    <div className="mb-20 flex w-full justify-end gap-5 px-5 pt-5">
       {!data?.user ? (
         <>
           <div>

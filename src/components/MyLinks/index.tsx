@@ -8,9 +8,6 @@ export default function MyLinks() {
       <h1 className="mt-5 text-center text-2xl font-bold">My Links</h1>
 
       <Link />
-      <Link />
-      <Link />
-      <Link />
     </div>
   );
 }
