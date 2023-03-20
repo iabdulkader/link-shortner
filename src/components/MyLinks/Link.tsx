@@ -1,17 +1,20 @@
 import { toast } from 'react-hot-toast';
 import { AiOutlineDelete } from 'react-icons/ai';
+import { useGlobalContext } from '../../context/GlobalContext';
 import { api } from '../../utils/trpc';
 
 export default function Link({ url }: any) {
+  const { deleteLink } = useGlobalContext();
   const { mutate, isLoading } = api.user.deleteLink.useMutation({
     onSuccess: (data) => {
       toast('Link deleted successfully');
+      deleteLink!(data.slug);
     },
   });
 
-  const deleteLink = () => {
+  const handle = () => {
     mutate({
-      id: url.id,
+      slug: url.slug,
     });
   };
   return (
@@ -32,7 +35,7 @@ export default function Link({ url }: any) {
           />
         </div>
         <div className="ml-2">
-          <AiOutlineDelete onClick={deleteLink} className="cursor-pointer" />
+          <AiOutlineDelete onClick={handle} className="cursor-pointer" />
         </div>
       </div>
     </div>

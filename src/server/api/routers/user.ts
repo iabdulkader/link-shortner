@@ -64,13 +64,13 @@ export const userRouter = createTRPCRouter({
 
     .input(
       z.object({
-        id: z.string(),
+        slug: z.string(),
       })
     )
     .mutation(async ({ ctx, input }) => {
       const res = await ctx.prisma.link.delete!({
         where: {
-          id: input.id,
+          slug: input.slug,
         },
       });
 

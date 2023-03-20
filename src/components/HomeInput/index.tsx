@@ -1,5 +1,6 @@
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
+import { useGlobalContext } from '../../context/GlobalContext';
 import { api } from '../../utils/trpc';
 import Button from '../Button';
 import Input from '../Input';
@@ -7,6 +8,8 @@ import ShortUrlDisplay from '../Input/ShortUrlDisplay';
 
 export default function HomeInput() {
   const { data, status } = useSession();
+  const { addLink } = useGlobalContext();
+
   const [url, setUrl] = useState<{ value: string; error: string }>({
     value: '',
     error: '',
@@ -20,6 +23,10 @@ export default function HomeInput() {
   const { mutate, isLoading } = api.create.createUnAuth.useMutation({
     onSuccess: (data) => {
       setShortUrl(data.shortLink);
+      addLink!({
+        url: data.url,
+        slug: data.shortLink,
+      });
     },
   });
   const handle = () => {

@@ -7,6 +7,25 @@ const reducer = (state: GlobalStateType, action: Action): GlobalStateType => {
         ...state,
         activeModal: action.payload,
       };
+
+    case ActionType.ADD_LINKS:
+      return {
+        ...state,
+        links: action.payload,
+      };
+
+    case ActionType.ADD_LINK:
+      return {
+        ...state,
+        links: [action.payload, ...state.links],
+      };
+
+    case ActionType.DELETE_LINK:
+      return {
+        ...state,
+        links: state.links.filter((link) => link.slug !== action.payload),
+      };
+
     default:
       return state;
   }

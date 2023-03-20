@@ -16,14 +16,10 @@ export const createRouter = createTRPCRouter({
         email: z.string().optional(),
       })
     )
-    .output(
-      z.object({
-        shortLink: z.string(),
-      })
-    )
     .mutation(async ({ input, ctx }) => {
       const slug = input.slug || nanoid(7);
       let res;
+      console.log(input);
 
       if (input.email) {
         res = await ctx.prisma.user.update!({
@@ -47,11 +43,13 @@ export const createRouter = createTRPCRouter({
           's-maxage=1000000000, stale-while-revalidate'
         );
 
+        console.log(res);
+
         return {
           shortLink: slug,
+          url: input.url,
         };
-      }
-      if (!input.email) {
+      } else {
         res = await ctx.prisma.link.create!({
           data: {
             url: input.url,
@@ -69,11 +67,9 @@ export const createRouter = createTRPCRouter({
 
         return {
           shortLink: res.slug,
+          url: res.url,
+          id: res.id,
         };
       }
-
-      return {
-        shortLink: slug,
-      };
     }),
 });

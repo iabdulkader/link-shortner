@@ -1,9 +1,10 @@
 import { createContext, ReactNode, useContext, useReducer } from 'react';
-import { ActionType, GlobalStateType } from '../types/types';
+import { ActionType, GlobalStateType, LinkType } from '../types/types';
 import reducer from './Reducer';
 
 const initialState: GlobalStateType = {
   activeModal: null,
+  links: [],
 };
 
 export const GlobalContext = createContext(initialState);
@@ -18,9 +19,34 @@ export const GlobalProvider = ({ children }: { children: JSX.Element }) => {
     });
   }
 
+  function addLinks(links: GlobalStateType['links']) {
+    dispatch({
+      type: ActionType.ADD_LINKS,
+      payload: links,
+    });
+  }
+
+  function addLink(link: LinkType) {
+    dispatch({
+      type: ActionType.ADD_LINK,
+      payload: link,
+    });
+  }
+
+  function deleteLink(slug: string) {
+    dispatch({
+      type: ActionType.DELETE_LINK,
+      payload: slug,
+    });
+  }
+
   const value = {
     activeModal: state.activeModal,
     updateModal,
+    links: state.links,
+    addLinks,
+    addLink,
+    deleteLink,
   };
 
   return (
