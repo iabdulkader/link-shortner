@@ -1,7 +1,5 @@
-import modal from 'modal-rt';
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
-import { BiCopy } from 'react-icons/bi';
 import { api } from '../../utils/trpc';
 import Button from '../Button';
 import Input from '../Input';
