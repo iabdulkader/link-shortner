@@ -29,15 +29,16 @@ export default function HomeInput() {
     }
 
     if (
-      slug.value.trim().length < 6 ||
-      /^[a-zA-Z0-9]+$/.test(slug.value) === false
+      slug.value.trim().length !== 0 &&
+      (slug.value.trim().length < 6 ||
+        /^[a-zA-Z0-9]+$/.test(slug.value) === false)
     ) {
       setSlug({ ...slug, error: 'Invalid Slug' });
       return;
     }
     mutate({
       url: url.value,
-      slug: slug.value,
+      slug: slug.value.trim(),
     });
   };
 
