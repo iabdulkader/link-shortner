@@ -139,7 +139,12 @@ export default function SignUp() {
         </div>
 
         <div className="mt-5">
-          <Button loading={isLoading} text="Sign Up" type="submit" />
+          <Button
+            fallback="Signing Up"
+            loading={isLoading}
+            text="Sign Up"
+            type="submit"
+          />
         </div>
       </form>
 

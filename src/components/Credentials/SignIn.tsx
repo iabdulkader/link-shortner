@@ -102,7 +102,12 @@ export default function SignIn() {
         </div>
 
         <div className="mt-5">
-          <Button loading={loading} text="Sign In" type="submit" />
+          <Button
+            fallback="Signing In"
+            loading={loading}
+            text="Sign In"
+            type="submit"
+          />
         </div>
       </form>
 

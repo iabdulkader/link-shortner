@@ -72,7 +72,11 @@ export default function HomeInput() {
             </div>
             <div className="mb-5"></div>
             <div>
-              <Button loading={isLoading} onClick={handle} />
+              <Button
+                fallback="Shorting"
+                loading={isLoading}
+                onClick={handle}
+              />
             </div>
             <div className="mt-5 lg:mt-0 lg:w-min"></div>
           </div>
@@ -90,7 +94,7 @@ export default function HomeInput() {
 
           <div className="mb-5"></div>
           <div className="w-full lg:w-auto">
-            <Button loading={isLoading} onClick={handle} />
+            <Button fallback="Shorting" loading={isLoading} onClick={handle} />
           </div>
         </div>
       )}
