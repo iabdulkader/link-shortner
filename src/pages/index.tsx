@@ -30,7 +30,7 @@ const Home: NextPage = () => {
           <Header.Home />
           <div className="flex flex-col items-center justify-center">
             <HomeInput />
-            {data?.user?.name ? null : <HomeInfo />}
+            {data?.user?.name ? <MyLinks /> : <HomeInfo />}
           </div>
         </main>
       </div>

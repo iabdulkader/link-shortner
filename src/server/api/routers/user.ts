@@ -36,4 +36,9 @@ export const userRouter = createTRPCRouter({
         email: res.email,
       };
     }),
+  allLinlks: protectedProcedure.input(z.object({})).query(async ({ ctx }) => {
+    const res = await ctx.prisma.link.findMany!();
+
+    return res;
+  }),
 });

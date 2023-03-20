@@ -2,11 +2,8 @@ import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
 
 export async function middleware(req: NextRequest, ev: NextFetchEvent) {
   const slug = req.nextUrl.pathname.split('/').pop();
-  console.log('slug', req.url);
-  if (!slug) return NextResponse.next();
 
   const slugFetch = await fetch(`${req.nextUrl.origin}/api/get-url/${slug}`);
-
   if (slugFetch.status === 404) {
     return NextResponse.redirect(req.nextUrl.origin);
   }
@@ -18,5 +15,6 @@ export async function middleware(req: NextRequest, ev: NextFetchEvent) {
 }
 
 export const config = {
-  matcher: '/:slug',
+  matcher:
+    '/((?!api|_next/static|_next/image|endless-clouds.svg|favicon.ico).*)',
 };
