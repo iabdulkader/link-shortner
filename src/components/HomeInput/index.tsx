@@ -39,6 +39,7 @@ export default function HomeInput() {
     mutate({
       url: url.value,
       slug: slug.value.trim(),
+      email: data?.user?.email ? data.user.email : '',
     });
   };
 

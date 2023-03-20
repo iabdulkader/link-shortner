@@ -20,6 +20,7 @@ export const userRouter = createTRPCRouter({
       z.object({
         name: z.string(),
         email: z.string().email(),
+        id: z.string(),
       })
     )
     .mutation(async ({ input, ctx }) => {
@@ -34,11 +35,29 @@ export const userRouter = createTRPCRouter({
       return {
         name: res.name,
         email: res.email,
+        id: res.id,
       };
     }),
-  allLinlks: protectedProcedure.input(z.object({})).query(async ({ ctx }) => {
-    const res = await ctx.prisma.link.findMany!();
+  allLinks: publicProcedure
+    .input(
+      z.object({
+        email: z.string().email().optional(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const res = await ctx.prisma.user.findFirst({
+        where: {
+          email: input.email,
+        },
+        include: {
+          links: true,
+        },
+      });
 
-    return res;
-  }),
+      if (res!.links) {
+        return res!.links;
+      } else {
+        return [];
+      }
+    }),
 });

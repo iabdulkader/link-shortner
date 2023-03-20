@@ -13,6 +13,7 @@ export const createRouter = createTRPCRouter({
       z.object({
         url: z.string(),
         slug: z.string().optional(),
+        email: z.string().email().optional(),
       })
     )
     .output(
@@ -22,23 +23,51 @@ export const createRouter = createTRPCRouter({
     )
     .mutation(async ({ input, ctx }) => {
       const slug = input.slug || nanoid(7);
+      let res;
 
-      const res = await ctx.prisma.link.create!({
-        data: {
-          url: input.url,
-          slug,
-        },
-      });
+      if (input.email) {
+        res = await ctx.prisma.user.update!({
+          where: {
+            email: input.email,
+          },
+          data: {
+            links: {
+              create: {
+                url: input.url,
+                slug,
+              },
+            },
+          },
+        });
 
-      ctx.res.setHeader('Content-Type', 'application/json');
-      ctx.res.setHeader('Access-Control-Allow-Origin', '*');
-      ctx.res.setHeader(
-        'Cache-Control',
-        's-maxage=1000000000, stale-while-revalidate'
-      );
+        ctx.res.setHeader('Content-Type', 'application/json');
+        ctx.res.setHeader('Access-Control-Allow-Origin', '*');
+        ctx.res.setHeader(
+          'Cache-Control',
+          's-maxage=1000000000, stale-while-revalidate'
+        );
 
-      return {
-        shortLink: res.slug,
-      };
+        return {
+          shortLink: slug,
+        };
+      } else {
+        res = await ctx.prisma.link.create!({
+          data: {
+            url: input.url,
+            slug,
+          },
+        });
+
+        ctx.res.setHeader('Content-Type', 'application/json');
+        ctx.res.setHeader('Access-Control-Allow-Origin', '*');
+        ctx.res.setHeader(
+          'Cache-Control',
+          's-maxage=1000000000, stale-while-revalidate'
+        );
+
+        return {
+          shortLink: res.slug,
+        };
+      }
     }),
 });
