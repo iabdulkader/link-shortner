@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useContext, useReducer } from 'react';
-import { ActionType, GlobalStateType } from '../src/types/types';
+import { ActionType, GlobalStateType } from '../types/types';
 import reducer from './Reducer';
 
 const initialState: GlobalStateType = {

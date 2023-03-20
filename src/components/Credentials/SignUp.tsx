@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useGlobalContext } from '../../../context/GlobalContext';
+import { useGlobalContext } from '../../context/GlobalContext';
 import Button from '../Button';
 import Input from '../Input';
 import { api } from '../../utils/trpc';

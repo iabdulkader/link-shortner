@@ -1,4 +1,4 @@
-import { Action, ActionType, GlobalStateType } from '../src/types/types';
+import { Action, ActionType, GlobalStateType } from '../types/types';
 
 const reducer = (state: GlobalStateType, action: Action): GlobalStateType => {
   switch (action.type) {

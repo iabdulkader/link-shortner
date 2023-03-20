@@ -1,4 +1,4 @@
-import { useGlobalContext } from '../../../context/GlobalContext';
+import { useGlobalContext } from '../../context/GlobalContext';
 import Button from '../Button';
 import Input from '../Input';
 import { signIn } from 'next-auth/react';

@@ -1,4 +1,4 @@
-import { useGlobalContext } from '../../../context/GlobalContext';
+import { useGlobalContext } from '../../context/GlobalContext';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
 

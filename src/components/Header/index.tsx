@@ -1,7 +1,7 @@
 import modal from 'modal-rt';
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
-import { useGlobalContext } from '../../../context/GlobalContext';
+import { useGlobalContext } from '../../context/GlobalContext';
 import Body from '../Credentials/Body';
 import HeaderExpand from '../HeaderExpand';
 

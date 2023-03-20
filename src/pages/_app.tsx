@@ -7,7 +7,7 @@ import { api } from '../utils/trpc';
 import '../styles/globals.css';
 import { Modal } from 'modal-rt';
 import { Toaster } from 'react-hot-toast';
-import { GlobalProvider } from '../../context/GlobalContext';
+import { GlobalProvider } from '../context/GlobalContext';
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,

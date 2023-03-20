@@ -1,6 +1,6 @@
 import modal from 'modal-rt';
 import Link from 'next/link';
-import { useGlobalContext } from '../../../context/GlobalContext';
+import { useGlobalContext } from '../../context/GlobalContext';
 import Body from '../Credentials/Body';
 
 export default function HomeInfo() {
