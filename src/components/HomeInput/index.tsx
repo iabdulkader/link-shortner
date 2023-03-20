@@ -14,7 +14,10 @@ export default function HomeInput() {
     error: '',
   });
   const [shortUrl, setShortUrl] = useState<string>('');
-  const [slug, setSlug] = useState<string>('');
+  const [slug, setSlug] = useState<{ value: string; error: string }>({
+    value: '',
+    error: '',
+  });
 
   const { mutate, isLoading } = api.create.createUnAuth.useMutation({
     onSuccess: (data) => {
@@ -26,9 +29,17 @@ export default function HomeInput() {
       setUrl({ ...url, error: 'Invalid URL' });
       return;
     }
+
+    if (
+      slug.value.trim().length < 6 ||
+      /^[a-zA-Z0-9]+$/.test(slug.value) === false
+    ) {
+      setSlug({ ...slug, error: 'Invalid Slug' });
+      return;
+    }
     mutate({
       url: url.value,
-      slug: slug,
+      slug: slug.value,
     });
   };
 
@@ -63,17 +74,19 @@ export default function HomeInput() {
           </p>
 
           <div className="flex h-full w-full flex-col lg:flex-row lg:gap-2">
-            <div className="flex h-full w-full items-center">
-              <div className="whitespace-nowrap">
+            <div className="flex h-full w-full items-start">
+              <div className="flex h-[2.75rem] items-center whitespace-nowrap">
                 <p className="mr-2 text-slate-50">
                   {`${process.env.NEXT_PUBLIC_CLIENT_URL}/`}
                 </p>
               </div>
               <Input
                 type="text"
-                value={slug}
-                onChange={(e) => setSlug(e.target.value)}
+                value={slug.value}
+                onChange={(e) => setSlug({ value: e.target.value, error: '' })}
                 placeholder="Custom Slug"
+                error={slug.error ? true : false}
+                errorText={slug.error}
               />
             </div>
             <div className="mb-5"></div>
