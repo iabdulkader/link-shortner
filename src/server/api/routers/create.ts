@@ -13,7 +13,7 @@ export const createRouter = createTRPCRouter({
       z.object({
         url: z.string(),
         slug: z.string().optional(),
-        email: z.string().email().optional(),
+        email: z.string().optional(),
       })
     )
     .output(
@@ -50,7 +50,8 @@ export const createRouter = createTRPCRouter({
         return {
           shortLink: slug,
         };
-      } else {
+      }
+      if (!input.email) {
         res = await ctx.prisma.link.create!({
           data: {
             url: input.url,
@@ -64,10 +65,15 @@ export const createRouter = createTRPCRouter({
           'Cache-Control',
           's-maxage=1000000000, stale-while-revalidate'
         );
+        console.log(res);
 
         return {
           shortLink: res.slug,
         };
       }
+
+      return {
+        shortLink: slug,
+      };
     }),
 });

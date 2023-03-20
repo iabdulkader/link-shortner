@@ -60,4 +60,20 @@ export const userRouter = createTRPCRouter({
         return [];
       }
     }),
+  deleteLink: publicProcedure
+
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const res = await ctx.prisma.link.delete!({
+        where: {
+          id: input.id,
+        },
+      });
+
+      return res;
+    }),
 });
