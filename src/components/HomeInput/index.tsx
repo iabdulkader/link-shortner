@@ -28,6 +28,7 @@ export default function HomeInput() {
     }
     mutate({
       url: url.value,
+      slug: slug,
     });
   };
 
@@ -54,7 +55,12 @@ export default function HomeInput() {
             error={url.error ? true : false}
             errorText={url.error}
           />
-          <p className="inset-0 w-full text-left">Custom Slug</p>
+          <p className="inset-0 w-full text-left">
+            Custom Slug
+            <span className="ml-2 text-xs text-slate-100">
+              (empty means randomly generated slug)
+            </span>
+          </p>
 
           <div className="flex h-full w-full flex-col lg:flex-row lg:gap-2">
             <div className="flex h-full w-full items-center">
