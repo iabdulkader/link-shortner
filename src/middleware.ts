@@ -8,7 +8,11 @@ export async function middleware(req: NextRequest, ev: NextFetchEvent) {
   if (
     req.nextUrl.pathname.startsWith('/api') ||
     req.nextUrl.pathname.startsWith('/_next') ||
-    req.nextUrl.pathname.startsWith('/favicon.ico')
+    req.nextUrl.pathname.startsWith('/favicon.ico') ||
+    req.nextUrl.pathname.startsWith('/manifest.json') ||
+    req.nextUrl.pathname.startsWith('/robots.txt') ||
+    req.nextUrl.pathname.startsWith('/sitemap.xml') ||
+    req.nextUrl.pathname.startsWith('/endless-clouds.svg')
   ) {
     return NextResponse.next();
   }

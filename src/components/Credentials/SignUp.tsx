@@ -10,6 +10,9 @@ export default function SignUp() {
     onSuccess: (data) => {
       updateModal!('signin');
     },
+    onError: (error) => {
+      setEmail({ ...email, error: error.message });
+    },
   });
 
   const [name, setName] = useState<{ value: string; error: string }>({

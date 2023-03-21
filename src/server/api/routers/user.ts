@@ -6,6 +6,7 @@ import {
   publicProcedure,
   protectedProcedure,
 } from '../context';
+import { Prisma } from '@prisma/client';
 
 export const userRouter = createTRPCRouter({
   createUser: publicProcedure
@@ -24,19 +25,30 @@ export const userRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ input, ctx }) => {
-      const res = await ctx.prisma.user.create!({
-        data: {
-          name: input.name,
-          email: input.email,
-          password: input.password,
-        },
-      });
+      try {
+        const res = await ctx.prisma.user.create!({
+          data: {
+            name: input.name,
+            email: input.email,
+            password: input.password,
+          },
+        });
 
-      return {
-        name: res.name,
-        email: res.email,
-        id: res.id,
-      };
+        return {
+          name: res.name,
+          email: res.email,
+          id: res.id,
+        };
+      } catch (error) {
+        if (
+          error instanceof Prisma.PrismaClientKnownRequestError &&
+          error.code === 'P2002'
+        ) {
+          throw new Error('User already exists with this email');
+        } else {
+          throw new Error('Something went wrong');
+        }
+      }
     }),
   allLinks: publicProcedure
     .input(
