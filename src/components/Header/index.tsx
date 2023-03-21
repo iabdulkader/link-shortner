@@ -41,9 +41,7 @@ export default function Header() {
 
 Header.Home = function HomeHeader() {
   const { updateModal } = useGlobalContext();
-  const { data, status } = useSession();
-
-  if (status === 'loading') return null;
+  const { data } = useSession();
 
   const click = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     let active = e.currentTarget.innerText;

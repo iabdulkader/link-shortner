@@ -6,6 +6,7 @@ import {
   publicProcedure,
   protectedProcedure,
 } from '../context';
+import { modifyUrl } from '../../../utils/link';
 
 export const createRouter = createTRPCRouter({
   createUnAuth: publicProcedure
@@ -29,7 +30,7 @@ export const createRouter = createTRPCRouter({
           data: {
             links: {
               create: {
-                url: input.url,
+                url: modifyUrl(input.url),
                 slug,
               },
             },
@@ -52,7 +53,7 @@ export const createRouter = createTRPCRouter({
       } else {
         res = await ctx.prisma.link.create!({
           data: {
-            url: input.url,
+            url: modifyUrl(input.url),
             slug,
           },
         });

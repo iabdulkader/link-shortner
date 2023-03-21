@@ -8,6 +8,7 @@ import HomeInfo from '../components/HomeInfo';
 import Header from '../components/Header';
 import { useEffect } from 'react';
 import MyLinks from '../components/MyLinks';
+import Loader from '../components/Loader';
 
 const Home: NextPage = () => {
   const { data, status } = useSession();
@@ -26,13 +27,17 @@ const Home: NextPage = () => {
         }}
         className="w-full bg-primary"
       >
-        <main className="container  px-0 font-[Nunito] lg:px-0">
-          <Header.Home />
-          <div className="flex flex-col items-center justify-center">
-            <HomeInput />
-            {data?.user?.name ? <MyLinks /> : <HomeInfo />}
-          </div>
-        </main>
+        {status === 'loading' ? (
+          <Loader />
+        ) : (
+          <main className="container  px-0 font-[Nunito] lg:px-0">
+            <Header.Home />
+            <div className="flex flex-col items-center justify-center">
+              <HomeInput />
+              {data?.user?.name ? <MyLinks /> : <HomeInfo />}
+            </div>
+          </main>
+        )}
       </div>
     </>
   );

@@ -1,6 +1,7 @@
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { useGlobalContext } from '../../context/GlobalContext';
+import { checkIsValidUrl } from '../../utils/link';
 import { api } from '../../utils/trpc';
 import Button from '../Button';
 import Input from '../Input';
@@ -27,17 +28,19 @@ export default function HomeInput() {
         url: data.url,
         slug: data.shortLink,
       });
+      setUrl({ value: '', error: '' });
+      setSlug({ value: '', error: '' });
     },
   });
   const handle = () => {
-    if (/^(ftp|http|https):\/\/[^ "]+$/.test(url.value) === false) {
+    if (checkIsValidUrl(url.value) === false) {
       setUrl({ ...url, error: 'Invalid URL' });
       return;
     }
 
     if (
       slug.value.trim().length !== 0 &&
-      (slug.value.trim().length < 6 ||
+      (slug.value.trim().length < 3 ||
         /^[a-zA-Z0-9]+$/.test(slug.value) === false)
     ) {
       setSlug({ ...slug, error: 'Invalid Slug' });

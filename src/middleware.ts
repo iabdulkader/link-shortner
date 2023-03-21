@@ -14,7 +14,7 @@ export async function middleware(req: NextRequest, ev: NextFetchEvent) {
   }
 
   if (!slug) {
-    return NextResponse.next();
+    return NextResponse.redirect(req.nextUrl.origin);
   }
 
   const slugFetch = await fetch(`${req.nextUrl.origin}/api/get-url/${slug}`);
