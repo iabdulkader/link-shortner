@@ -1,11 +1,12 @@
 import { useSession } from 'next-auth/react';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useGlobalContext } from '../../context/GlobalContext';
 import { checkIsValidUrl } from '../../utils/link';
 import { api } from '../../utils/trpc';
 import Button from '../Button';
 import Input from '../Input';
 import ShortUrlDisplay from '../Input/ShortUrlDisplay';
+import SlugInput from '../Input/SlugInput';
 
 export default function HomeInput() {
   const { data, status } = useSession();
@@ -20,6 +21,7 @@ export default function HomeInput() {
     value: '',
     error: '',
   });
+  const [isProcessing, setIsProcessing] = useState<boolean>(false);
 
   const { mutate, isLoading } = api.create.createUnAuth.useMutation({
     onSuccess: (data) => {
@@ -32,6 +34,15 @@ export default function HomeInput() {
       setSlug({ value: '', error: '' });
     },
   });
+
+  const { mutate: slugCheck, reset } = api.link.checkSlug.useMutation({
+    onSuccess: (data) => {
+      if (data === false) {
+        setSlug({ ...slug, error: 'Slug is taken' });
+      }
+    },
+  });
+
   const handle = () => {
     if (checkIsValidUrl(url.value) === false) {
       setUrl({ ...url, error: 'Invalid URL' });
@@ -46,14 +57,34 @@ export default function HomeInput() {
       setSlug({ ...slug, error: 'Invalid Slug' });
       return;
     }
-    mutate({
-      url: url.value,
-      slug: slug.value.trim(),
-      email: data?.user?.email ? data.user.email : '',
-    });
+    if (!slug.error && !url.error) {
+      mutate({
+        url: url.value,
+        slug: slug.value.trim(),
+        email: data?.user?.email ? data.user.email : '',
+      });
+    }
   };
 
-  if (status === 'loading') return <div>Loading...</div>;
+  const handleKeyPress = useCallback(
+    (event: any) => {
+      if (!isProcessing) {
+        setIsProcessing(true);
+        reset();
+
+        if (slug.value.trim().length > 3) {
+          slugCheck({
+            slug: slug.value,
+          });
+        }
+
+        setTimeout(() => {
+          setIsProcessing(false);
+        }, 500);
+      }
+    },
+    [isProcessing]
+  );
 
   return (
     <div className="px-4">
@@ -90,13 +121,15 @@ export default function HomeInput() {
                   {`${process.env.NEXT_PUBLIC_CLIENT_URL}/`}
                 </p>
               </div>
-              <Input
+              <SlugInput
                 type="text"
                 value={slug.value}
                 onChange={(e) => setSlug({ value: e.target.value, error: '' })}
                 placeholder="Custom Slug"
                 error={slug.error ? true : false}
                 errorText={slug.error}
+                onKeyUp={handleKeyPress}
+                processing={isProcessing}
               />
             </div>
             <div className="mb-5"></div>

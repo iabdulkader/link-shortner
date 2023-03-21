@@ -2,6 +2,7 @@ import { toast } from 'react-hot-toast';
 import { AiOutlineDelete } from 'react-icons/ai';
 import { useGlobalContext } from '../../context/GlobalContext';
 import { api } from '../../utils/trpc';
+import Loader from '../Loader';
 
 export default function Link({ url }: any) {
   const { deleteLink } = useGlobalContext();
@@ -34,8 +35,14 @@ export default function Link({ url }: any) {
             readOnly
           />
         </div>
-        <div className="ml-2">
-          <AiOutlineDelete onClick={handle} className="cursor-pointer" />
+        <div className="ml-2 h-6 w-6">
+          {isLoading ? (
+            <Loader.small />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center">
+              <AiOutlineDelete onClick={handle} className="cursor-pointer" />
+            </div>
+          )}
         </div>
       </div>
     </div>

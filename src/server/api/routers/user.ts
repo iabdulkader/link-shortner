@@ -62,7 +62,11 @@ export const userRouter = createTRPCRouter({
           email: input.email,
         },
         include: {
-          links: true,
+          links: {
+            orderBy: {
+              createdAt: 'desc',
+            },
+          },
         },
       });
 
