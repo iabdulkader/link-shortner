@@ -20,7 +20,6 @@ export const createRouter = createTRPCRouter({
     .mutation(async ({ input, ctx }) => {
       const slug = input.slug || nanoid(7);
       let res;
-      console.log(input);
 
       if (input.email) {
         res = await ctx.prisma.user.update!({
@@ -44,8 +43,6 @@ export const createRouter = createTRPCRouter({
           's-maxage=1000000000, stale-while-revalidate'
         );
 
-        console.log(res);
-
         return {
           shortLink: slug,
           url: input.url,
@@ -64,7 +61,6 @@ export const createRouter = createTRPCRouter({
           'Cache-Control',
           's-maxage=1000000000, stale-while-revalidate'
         );
-        console.log(res);
 
         return {
           shortLink: res.slug,

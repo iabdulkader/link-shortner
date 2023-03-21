@@ -33,7 +33,7 @@ export default function MyLinks() {
     <MyLinks.Body>
       <>
         {links.map((url: any) => (
-          <Link key={url._id} url={url} />
+          <Link key={url.id} url={url} />
         ))}
       </>
     </MyLinks.Body>

@@ -3,8 +3,6 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { prisma } from '../../../server/db';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  console.log(req.body);
-
   try {
     const user = await prisma.user.findFirst({
       where: {

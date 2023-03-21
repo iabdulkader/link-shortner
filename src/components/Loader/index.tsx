@@ -1,6 +1,6 @@
 export default function Loader() {
   return (
-    <div className="flex h-full w-full items-center justify-center bg-primary">
+    <div className="flex h-full min-h-screen w-full items-center justify-center bg-primary">
       <div className="h-32 w-32 animate-spin rounded-full border-b-2 border-slate-300"></div>
     </div>
   );
@@ -16,7 +16,7 @@ Loader.small = () => {
         x="0px"
         y="0px"
         viewBox="0 0 100 100"
-        enable-background="new 0 0 0 0"
+        enableBackground="new 0 0 0 0"
         xmlSpace="preserve"
       >
         <circle fill="#fff" stroke="none" cx="6" cy="50" r="6">

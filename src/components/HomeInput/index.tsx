@@ -1,5 +1,6 @@
+import debounce from 'lodash.debounce';
 import { useSession } from 'next-auth/react';
-import { useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { useGlobalContext } from '../../context/GlobalContext';
 import { checkIsValidUrl } from '../../utils/link';
 import { api } from '../../utils/trpc';
@@ -17,11 +18,8 @@ export default function HomeInput() {
     error: '',
   });
   const [shortUrl, setShortUrl] = useState<string>('');
-  const [slug, setSlug] = useState<{ value: string; error: string }>({
-    value: '',
-    error: '',
-  });
-  const [isProcessing, setIsProcessing] = useState<boolean>(false);
+  const [slug, setSlug] = useState<string>('');
+  const [slugError, setSlugError] = useState<string>('');
 
   const { mutate, isLoading } = api.create.createUnAuth.useMutation({
     onSuccess: (data) => {
@@ -31,14 +29,21 @@ export default function HomeInput() {
         slug: data.shortLink,
       });
       setUrl({ value: '', error: '' });
-      setSlug({ value: '', error: '' });
+      setSlug('');
+      setSlugError('');
     },
   });
 
-  const { mutate: slugCheck, reset } = api.link.checkSlug.useMutation({
+  const {
+    mutate: slugCheck,
+    isLoading: isSlugProcessing,
+    reset,
+  } = api.link.checkSlug.useMutation({
     onSuccess: (data) => {
-      if (data === false) {
-        setSlug({ ...slug, error: 'Slug is taken' });
+      if (data === true) {
+        setSlugError('Slug is taken');
+      } else {
+        setSlugError('');
       }
     },
   });
@@ -50,41 +55,37 @@ export default function HomeInput() {
     }
 
     if (
-      slug.value.trim().length !== 0 &&
-      (slug.value.trim().length < 3 ||
-        /^[a-zA-Z0-9]+$/.test(slug.value) === false)
+      slug.trim().length !== 0 &&
+      (slug.trim().length < 3 || /^[a-zA-Z0-9]+$/.test(slug) === false)
     ) {
-      setSlug({ ...slug, error: 'Invalid Slug' });
+      setSlugError('Invalid Slug');
       return;
     }
-    if (!slug.error && !url.error) {
+    if (!slugError && !url.error) {
       mutate({
         url: url.value,
-        slug: slug.value.trim(),
+        slug: slug.trim(),
         email: data?.user?.email ? data.user.email : '',
       });
     }
   };
 
-  const handleKeyPress = useCallback(
-    (event: any) => {
-      if (!isProcessing) {
-        setIsProcessing(true);
-        reset();
+  const request = debounce((slug: string) => {
+    reset();
 
-        if (slug.value.trim().length > 3) {
-          slugCheck({
-            slug: slug.value,
-          });
-        }
+    if (slug.trim().length >= 3) {
+      slugCheck({
+        slug,
+      });
+    }
+  }, 500);
 
-        setTimeout(() => {
-          setIsProcessing(false);
-        }, 500);
-      }
-    },
-    [isProcessing]
-  );
+  const debounceRequest = useCallback((slug: string) => request(slug), []);
+
+  const handleSlugChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSlug(e.target.value);
+    debounceRequest(e.target.value);
+  };
 
   return (
     <div className="px-4">
@@ -123,13 +124,12 @@ export default function HomeInput() {
               </div>
               <SlugInput
                 type="text"
-                value={slug.value}
-                onChange={(e) => setSlug({ value: e.target.value, error: '' })}
+                value={slug}
+                onChange={handleSlugChange}
                 placeholder="Custom Slug"
-                error={slug.error ? true : false}
-                errorText={slug.error}
-                onKeyUp={handleKeyPress}
-                processing={isProcessing}
+                error={slugError ? true : false}
+                errorText={slugError}
+                processing={isSlugProcessing}
               />
             </div>
             <div className="mb-5"></div>
